@@ -25,5 +25,5 @@ jobs:
           file: Dockerfile.multistage
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USER }}/AI-BankApp:latest
-            ${{ secrets.DOCKERHUB_USER }}/AI-BankApp:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USER }}/ai-bankapp:latest
+            ${{ secrets.DOCKERHUB_USER }}/ai-bankapp:${{ github.sha }}
