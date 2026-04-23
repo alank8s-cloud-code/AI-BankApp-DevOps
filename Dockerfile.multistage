@@ -4,10 +4,6 @@
 
 FROM eclipse-temurin:21-jdk-jammy AS builder
 
-# update the image
-
-RUN apt-get update && apt-get upgrade -y
-
 # Set Working directory
 
 WORKDIR /app
@@ -22,7 +18,7 @@ RUN chmod +x mvnw &&  ./mvnw clean package -DskipTests -B && mv target/*.jar app
 
 
 #==================================
-#Stage1: builder
+#Stage2: deployer
 #==================================
 
 FROM gcr.io/distroless/java21-debian12:nonroot
