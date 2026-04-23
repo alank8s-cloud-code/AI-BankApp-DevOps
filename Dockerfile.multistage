@@ -23,6 +23,8 @@ RUN chmod +x mvnw &&  ./mvnw clean package -DskipTests -B && mv target/*.jar app
 
 FROM gcr.io/distroless/java21-debian12:nonroot
 
+RUN apt-get update && apt-get upgrade -y
+
 WORKDIR /app
 
 COPY --from=builder /app/app.jar /app/app.jar
