@@ -1,0 +1,29 @@
+# Linting and SAST scan
+# 
+
+name: Code Quality
+
+on: workflow_dispatch
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Set up JDK 
+        uses:  actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build the maven
+        run: mvn clean package -DskipTests
+
+      - name: Upload Build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: target/*.jar
