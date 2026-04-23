@@ -1,0 +1,64 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    networks:
+      - ai-net
+    volumes:
+      - ai_data:/var/lib/mysql
+    env_file:
+      - .env
+
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p$MYSQL_ROOT_PASSWORD" ]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+
+  ollama:
+    image: ollama/ollama
+    container_name: bankapp-ollama
+    restart: unless-stopped
+    networks:
+      - ai-net
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:11434" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  bankapp:
+    build:
+      context: .
+      dockerfile: Dockerfile.multistage
+    container_name: Ai-bank
+    restart: unless-stopped
+    environment:
+      OLLAMA_URL: http://ollama:11434
+    networks:
+      - ai-net
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+
+networks:
+  ai-net:
+    driver: bridge
+volumes:
+  ai_data: {}
+  ollama-data: {}

@@ -1,0 +1,36 @@
+#==================================
+#Stage1: builder
+#==================================
+
+FROM eclipse-temurin:21-jdk-jammy AS builder
+
+# update the image
+
+RUN apt-get update && apt-get upgrade -y
+
+# Set Working directory
+
+WORKDIR /app
+
+# COPY the file
+
+COPY . .
+
+# Install the libraries with maven
+
+RUN chmod +x mvnw &&  ./mvnw clean package -DskipTests -B && mv target/*.jar app.jar
+
+
+#==================================
+#Stage1: builder
+#==================================
+
+FROM gcr.io/distroless/java21-debian12:nonroot
+
+WORKDIR /app
+
+COPY --from=builder /app/app.jar /app/app.jar
+
+EXPOSE 8080
+
+CMD ["app.jar"]
