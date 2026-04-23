@@ -2,11 +2,9 @@
 # tool: hadolint can be used for dockerfile linting and scanning for CVE's
 
 name: Dockerfile Scan
-on:
-  push:
-    branches:
-      - main
-
+on: 
+ workflow_call:
+   
 jobs:
     validae-dockerfile:
         runs-on: ubuntu-latest
