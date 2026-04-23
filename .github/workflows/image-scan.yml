@@ -26,5 +26,5 @@ jobs:
                   exit-code: '1'         # Enforce: fail pipeline on CRITICAL/HIGH findings
                   ignore-unfixed: true
                   severity: 'CRITICAL,HIGH'
-                  output: trivy-report.txt
+                  
       
