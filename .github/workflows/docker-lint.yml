@@ -3,7 +3,7 @@
 
 name: Dockerfile Scan
 on: 
- workflow_call:
+ workflow_dispatch: 
    
 jobs:
     validae-dockerfile:
