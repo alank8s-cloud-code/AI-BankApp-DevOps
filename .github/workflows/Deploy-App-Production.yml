@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
-            DOCKER_TAG: ${{ github.sha }
+            DOCKER_TAG: ${{ github.sha }}
         steps:
             - name: Check out repository code
               uses: actions/checkout@v5
