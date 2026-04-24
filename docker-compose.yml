@@ -2,6 +2,9 @@ services:
   mysql:
     image: mysql:8.0
     container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Test@123
+      MYSQL_DATABASE: bankappdb
     restart: unless-stopped
     ports:
       - "3306:3306"
@@ -9,8 +12,6 @@ services:
       - ai-net
     volumes:
       - ai_data:/var/lib/mysql
-    env_file:
-      - .env
 
     healthcheck:
       test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p$MYSQL_ROOT_PASSWORD" ]
@@ -20,9 +21,7 @@ services:
       start_period: 30s
 
   ollama:
-    build:
-      context: .
-      dockerfile: Dockerfile.ollama
+    image: mrsuraj542/ollama-model:v1
     container_name: bankapp-ollama
     restart: unless-stopped
     networks:
@@ -60,13 +59,17 @@ services:
     container_name: Ai-bank
     restart: unless-stopped
     environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: bankappdb
+      MYSQL_USER: suraj
+      MYSQL_PASSWORD: Test@123
       OLLAMA_URL: http://ollama:11434
     networks:
       - ai-net
     ports:
       - "8080:8080"
-    env_file:
-      - .env
+
     depends_on:
       mysql:
         condition: service_healthy
