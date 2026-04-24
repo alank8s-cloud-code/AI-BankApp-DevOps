@@ -3,7 +3,8 @@
 
 name: Image Scanner
 
-on: workflow_dispatch
+on:
+  workflow_call: 
 
 jobs:
     docker-image-scan:
