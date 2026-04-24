@@ -1,0 +1,34 @@
+name: DevSecOps Pipeline
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    # CI (continuous integration)
+    code-quality:
+        uses: ./.github/workflows/code_check.yml
+
+    scan-secret:
+        uses: ./.github/workflows/gitleaks.yml
+
+    docker-lint:
+        needs: [code-quality, scan-secret]
+        uses: ./.github/workflows/docker-lint.yml
+
+    # Build once the security scans are comlete
+    build:
+        needs: [code-quality, scan-secret, docker-lint]
+        uses: ./.github/workflows/build-and-push.yml
+        secrets: inherit
+
+    trivy:
+        needs: [build]
+        uses: ./.github/workflows/image-scan.yml
+        secrets: inherit
+
+    # CD (continuous deployment) - deploy to production server if the image scan is successful
+    deploy:
+        needs: [trivy]
+        uses: ./.github/workflows/Deploy-App-Production.yml
+        secrets: inherit
