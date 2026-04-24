@@ -53,9 +53,7 @@ services:
       - ai-net
 
   bankapp:
-    build:
-      context: .
-      dockerfile: Dockerfile.multistage
+    image: "${DOCKERHUB_USER}/ai-bankapp:${DOCKER_TAG}"
     container_name: Ai-bank
     restart: unless-stopped
     environment:
