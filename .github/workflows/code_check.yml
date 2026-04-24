@@ -3,7 +3,8 @@
 
 name: Code Quality
 
-on: workflow_dispatch
+on:
+  workflow_call: 
 
 jobs:
   validate:
