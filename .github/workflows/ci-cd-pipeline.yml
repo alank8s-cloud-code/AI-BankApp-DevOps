@@ -16,7 +16,7 @@ jobs:
         needs: [code-quality, scan-secret]
         uses: ./.github/workflows/docker-lint.yml
 
-    # Build once the security scans are comlete
+    # Build once the security scans are comleted
     build:
         needs: [code-quality, scan-secret, docker-lint]
         uses: ./.github/workflows/build-and-push.yml
