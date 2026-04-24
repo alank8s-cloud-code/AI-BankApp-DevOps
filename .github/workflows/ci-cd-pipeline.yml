@@ -27,7 +27,7 @@ jobs:
         uses: ./.github/workflows/image-scan.yml
         secrets: inherit
 
-    # CD (continuous deployment) - deploy to production server if the image scan is successful
+    # CD (continuous deployment) - deploy to production server if the image scan is successful and deploy on the prodcution server
     deploy:
         needs: [trivy]
         uses: ./.github/workflows/Deploy-App-Production.yml
