@@ -38,7 +38,7 @@ services:
       start_period: 90s
 
   ollama-pull-model:
-    image: ollama/ollama:latest
+    image: mrsuraj542/ollama-model:v1
     container_name: ollama-pull-model
     environment:
       - OLLAMA_HOST=ollama
