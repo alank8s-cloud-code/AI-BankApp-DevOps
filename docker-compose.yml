@@ -60,7 +60,7 @@ services:
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
       MYSQL_DATABASE: bankappdb
-      MYSQL_USER: suraj
+      MYSQL_USER: root
       MYSQL_PASSWORD: Test@123
       OLLAMA_URL: http://ollama:11434
     networks:
